@@ -1,43 +1,68 @@
-# Bearing Fault Detection and Severity Classification
+# 🏷️ Bearing Fault Diagnosis Using Vibration Data
 
-This project implements a **vibration-based bearing fault diagnosis system** that combines signal processing and deep learning for automated **fault detection**, **severity estimation**, and **classification**. It processes raw vibration data collected from rotating machinery to identify the health state of bearings and distinguish between different fault types and severities.
+This project explores **predictive maintenance and fault diagnosis in bearings** through vibration signal analysis.  
+By combining **signal transformation**, **deep learning**, and **diffusion-based data augmentation**, the notebooks demonstrate how AI can detect and classify different bearing fault types with high accuracy.  
 
----
-
-## 🔍 Overview
-
-The workflow begins with **signal preprocessing**, followed by **fault onset and severity detection** using gradient-based and RMS-based analysis. Once fault regions are identified, the system converts them into **time–frequency representations** using the **Wigner–Ville Distribution (WVD)**. These WVD images are then used to train a **ResNet-based Convolutional Neural Network (CNN)** for fault classification.
-
-This approach integrates traditional vibration analysis with deep learning to provide an end-to-end diagnostic framework.
+The project uses two benchmark datasets:
+- **XJTU-SY Bearing Dataset** — Includes vibration data from 15 bearings across 5 fault types (including normal), each with 3 fault severity levels.  
+- **CWRU Bearing Dataset** — A standard dataset from the Case Western Reserve University, widely used for bearing fault analysis.
 
 ---
 
-## ⚙️ Key Components
-
-- **Signal Normalization & Gradient Estimation** – Detects early deviations indicating potential faults.  
-- **RMS Window Analysis** – Measures vibration energy variations to identify fault progression.  
-- **Fault Segmentation** – Divides vibration signals into “Normal”, “Medium Severity”, and “High Severity” segments.  
-- **Wigner–Ville Distribution (WVD)** – Generates time–frequency representations for deep learning input.  
-- **ResNet Model** – Classifies faults using a deep CNN architecture trained on WVD images.  
-- **Performance Evaluation** – Tracks model accuracy, loss, and visualizes classification results.
+## 📘 Table of Contents
+1. [Project Overview](#🏷️-bearing-fault-diagnosis-using-vibration-data)  
+2. [Notebooks Overview](#📓-notebooks-overview)  
+3. [Results / Output](#🧠-results--output)  
+4. [Project Structure](#📂-project-structure)  
 
 ---
 
-## 🧠 Tech Stack
+## 📓 Notebooks Overview
 
-- **Python**
-- **NumPy**, **Pandas**, **Matplotlib**
-- **TensorFlow / Keras**
-- **Scikit-learn**
-- **tqdm**
+### 1. `xjtu.ipynb`
+**Goal:** Classify bearing fault types using the XJTU-SY dataset.  
+
+**Key Steps:**
+- Load vibration time-series data from multiple bearings.  
+- Apply **Wigner–Ville transformation** to convert 1D vibration signals into 2D time–frequency images.  
+- Train a **ResNet-based CNN** model for multi-class fault classification.  
+- Evaluate model accuracy and visualize performance metrics.  
+
+**Techniques Used:**  
+Signal-to-image transformation, deep CNN architectures, and supervised classification.  
 
 ---
 
-## 📈 Outcome
+### 2. `cwru.ipynb`
+**Goal:** Detect and classify bearing faults using the CWRU dataset.  
 
-The trained model successfully classifies vibration signals into different fault categories and severity levels, enabling early detection of bearing defects.  
-This system demonstrates how **signal processing + deep learning** can be integrated for effective **predictive maintenance** in rotating machinery.
+**Key Steps:**
+- Preprocess vibration signals and generate 2D representations.  
+- Train a custom **CNN model (`classifier_model_8`)** built with convolutional and dense layers using **tanh activations** and **dropout regularization**.  
+- Integrate **diffusion models** for synthetic data generation and signal augmentation, improving dataset diversity and robustness.  
+- Evaluate classification accuracy and visualize predictions.  
+
+**Techniques Used:**  
+Diffusion-based data augmentation, tabular diffusion, and vibration feature learning through CNNs.  
 
 ---
 
-*Developed as an experimental research project for vibration-based condition monitoring and fault classification.*
+## 🧠 Results / Output
+
+| Notebook | Dataset | Model | Description | Test Accuracy |
+|-----------|----------|--------|--------------|----------------|
+| `xjtu.ipynb` | XJTU-SY | ResNet | Classified 5 bearing fault types using Wigner–Ville images | **81.4%** |
+| `cwru.ipynb` | CWRU | Custom CNN (`classifier_model_8`) | Identified multiple bearing fault conditions using augmented vibration signals | **96.18%** |
+
+**Summary:**  
+The **ResNet** model effectively learned fault patterns from the XJTU dataset, while the **custom CNN** in the CWRU notebook achieved superior performance.  
+Data augmentation through **diffusion techniques** significantly improved generalization and reduced overfitting.
+
+---
+
+## 📂 Project Structure
+```bash
+bearing-fault-diagnosis/
+├── xjtu.ipynb                # Fault classification using XJTU dataset (ResNet)
+├── cwru.ipynb                # Fault classification using CWRU dataset (Custom CNN)                 # Evaluation reports and visualizations
+└── README.md                 # Project documentation
